@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Content Change</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            position: relative;
+            /* Required for positioning the arrow */
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            /* Default background */
+            color: #333;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: relative;
+            /* Required for positioning the arrow */
+            z-index: 1;
+            /* Ensure the button is above the arrow */
+        }
+
+        .button:hover {
+            background-color: #d8d8d8;
+            /* Slightly darker on hover */
+        }
+
+        .active {
+            background-color: #28a745;
+            /* Green background for the active button */
+            color: white;
+            /* Text color for active button */
+        }
+
+        .content-box {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            gap: 40px;
+        }
+        .b1{
+            display: flex;
+            flex-direction: column;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 100%;
+            /* Position below the button */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #28a745;
+            /* Same color as active button */
+            z-index: 0;
+            /* Behind the buttons */
+        }
+        body {
+            background-color: white;
+            color: black;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        button {
+            padding: 10px;
+            margin: 20px;
+            cursor: pointer;
+        }
+        
+        /* Dark theme */
+        body.dark-theme {
+            background-color: #121212;
+            color: white;
+        } 
+    </style>
+</head>
+
+<body>
+
+    <div class="buttons ">
+        <button class="button" id="internationalCookeryBtn"
+            onclick="changeContent('internationalCookery', this)">International Cookery</button>
+        <button class="button" id="howToMiseEnPlaceBtn" onclick="changeContent('howToMiseEnPlace', this)">How to Mise en
+            Place</button>
+        <button class="button" id="portionControlBtn" onclick="changeContent('portionControl', this)">Portion
+            Control</button>
+        <button class="button" id="knifeSkillsBtn" onclick="changeContent('knifeSkills', this)">Knife Skills & Cooking
+            Techniques</button>
+        <button class="button" id="choosingFoodsBtn" onclick="changeContent('choosingFoods', this)">Choosing
+            Disease-Preventing Foods</button>
+        <div class="arrow" id="arrow"></div>
+    </div>
+
+    <div class="content-box" id="content-box">
+        <img id="content-image" src="" alt="Content Image">
+        <div class="b1">
+            <h2 id="content-title">Title</h2>
+            <p id="content-description">Description</p>
+        </div>
+    </div>
+
+    <h3>
+        <button id="theme-toggle">Switch Theme</button>
+    </h3>
+
+    <script>
+        const contentData = {
+            internationalCookery: {
+                title: "International Cookery",
+                description: "In every lesson, we will travel around the world and prepare traditional dishes utilizing healthy ingredients (the ones that are good for you!). We will be offering lessons on breakfast, brunch, lunch, snacks, and dinner preparation.",
+                image: "https://via.placeholder.com/300.png?text=International+Cookery" // Replace with actual image URL
+            },
+            howToMiseEnPlace: {
+                title: "How to Mise en Place",
+                description: "Mise en place is a French culinary phrase which means 'everything in its place.' It's essential for preparing your ingredients before you start cooking.",
+                image: "https://via.placeholder.com/300.png?text=How+to+Mise+en+Place" // Replace with actual image URL
+            },
+            portionControl: {
+                title: "Portion Control",
+                description: "Learning about portion control is crucial for maintaining a balanced diet and avoiding food waste. Proper portioning can help improve meal preparation.",
+                image: "https://via.placeholder.com/300.png?text=Portion+Control" // Replace with actual image URL
+            },
+            knifeSkills: {
+                title: "Knife Skills & Cooking Techniques",
+                description: "Proper knife skills are fundamental in the kitchen. Learn different techniques for slicing, dicing, and chopping for efficiency and safety.",
+                image: "https://via.placeholder.com/300.png?text=Knife+Skills" // Replace with actual image URL
+            },
+            choosingFoods: {
+                title: "Choosing Disease-Preventing Foods",
+                description: "Understanding how to select foods that can prevent diseases is vital for health. Discover tips for incorporating more nutrient-rich foods into your diet.",
+                image: "https://via.placeholder.com/300.png?text=Choosing+Foods" // Replace with actual image URL
+            }
+        };
+
+        function changeContent(contentKey, button) {
+            const content = contentData[contentKey];
+            document.getElementById("content-title").innerText = content.title;
+            document.getElementById("content-description").innerText = content.description;
+            document.getElementById("content-image").src = content.image;
+
+            // Update button styles
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(btn => btn.classList.remove('active')); // Remove active class from all buttons
+            button.classList.add('active'); // Add active class to the clicked button
+
+            // Move arrow to the active button
+            const arrow = document.getElementById("arrow");
+            const buttonRect = button.getBoundingClientRect();
+            arrow.style.left = `${buttonRect.left + buttonRect.width / 2}px`; // Center the arrow below the button
+        }
+
+        // Show the first content by default
+        window.onload = function () {
+            changeContent('internationalCookery', document.getElementById('internationalCookeryBtn'));
+        };
+
+
+
+
+
+const themeToggle = document.getElementById('theme-toggle');
+
+// Check for saved theme preference in localStorage
+let currentTheme = localStorage.getItem('theme');
+
+// Apply saved theme on page load
+if (currentTheme === 'dark') {
+    document.body.classList.add('dark-theme');
+    themeToggle.textContent = 'Switch to Day Theme';
+} else {
+    themeToggle.textContent = 'Switch to Night Theme';
+}
+
+// Toggle theme on button click
+themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark-theme');
+
+    // Save the current theme in localStorage
+    if (document.body.classList.contains('dark-theme')) {
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = 'Switch to Day Theme';
+    } else {
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = 'Switch to Night Theme';
+    }
+});
+
+    </script>
+
+</body>
+
+</html>

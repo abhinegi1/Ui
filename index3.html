@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll-triggered box2es with Hover Animation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: lightgray;
+    }
+
+    .box2 {
+      width: 200px;
+      height: 300px;
+      margin: 20px;
+      background-color: #28a745;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s ease-out;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    /* Text content inside the box2 */
+    .box2-content {
+      padding: 20px;
+      color: white;
+      position: absolute;
+      bottom: -100%; /* Initially hidden */
+      transition: all 0.5s ease-in-out;
+      text-align: center;
+    }
+
+    /* Reveal the content on hover */
+    .box2:hover .box2-content {
+      bottom: 0;
+    }
+
+    /* Show the box2 on scroll */
+    .box2.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <section>
+    <h2>Scroll down to see the box2es</h2>
+  </section>
+
+  <section>
+    <div class="box2" data-delay="0">
+      <div class="box2-content">
+        <h3>Angel Whites</h3>
+        <p>Economics, 60+ hours</p>
+        <button>View Detail</button>
+      </div>
+    </div>
+    <div class="box2" data-delay="0.3">
+      <div class="box2-content">
+        <h3>John Doe</h3>
+        <p>Mathematics, 40+ hours</p>
+        <button>View Detail</button>
+      </div>
+    </div>
+    <div class="box2" data-delay="0.6">
+      <div class="box2-content">
+        <h3>Jane Smith</h3>
+        <p>Physics, 70+ hours</p>
+        <button>View Detail</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const boxes = document.querySelectorAll('.box2');
+
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.getAttribute('data-delay');
+          entry.target.style.transitionDelay = `${delay}s`;
+          entry.target.classList.add('show');
+        }
+      });
+    };
+
+    const observerOptions = {
+      threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    boxes.forEach(box2 => observer.observe(box2));
+  </script>
+
+</body>
+</html>
