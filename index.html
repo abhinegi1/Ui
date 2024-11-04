@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Background Example</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('./image.png'); /* Apni image ka URL daalein */
+            background-size: cover;
+            background-attachment: fixed; /* Background ko fix rakhne ke liye */
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .content {
+            padding: 20px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7); /* Content ke liye halka transparent background */
+        }
+
+        .text-section {
+            height: 1500px; /* Long content */
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4); /* Transparent background to make content readable */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+        <h1>Fixed Background Image</h1>
+        <p>The background image will stay fixed as you scroll through the page.</p>
+    </div>
+
+    <div class="text-section">
+        <h2>Scrollable Content</h2>
+        <p>Scroll down, and the background image will remain fixed behind the content.</p>
+    </div>
+
+</body>
+</html>
